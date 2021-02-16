@@ -1,0 +1,19 @@
+GET http://192.168.2.29:32400/status/sessions
+Accept: application/json
+###
+
+GET http://192.168.2.29:32400/library/sections
+Accept: application/json
+###
+
+GET http://192.168.2.29:32400/library/sections/3/all
+Accept: application/json
+###
+
+GET https://192.168.2.29:32400/transcode/sessions
+Accept: application/json
+###
+
+GET https://192.168.2.29:32400/status/sessions/history/all
+Accept: application/json
+###
