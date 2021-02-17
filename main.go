@@ -61,8 +61,16 @@ func main() {
 		HTTPClient: *client,
 	}
 
-	prometheus.Register(collector.NewPlexCollector(plexServer))
+	err := prometheus.Register(collector.NewPlexCollector(plexServer))
+	if err != nil {
+		log.Fatal("Can't register collectors")
+	}
+
 	http.Handle("/metrics", promhttp.Handler())
 	log.Printf("starting plex_export [:%s]", metricsPort)
-	http.ListenAndServe(":"+metricsPort, nil)
+	err = http.ListenAndServe(":"+metricsPort, nil)
+	if err != nil {
+		log.Fatalf("Can't start server %s", metricsPort)
+	}
+
 }
