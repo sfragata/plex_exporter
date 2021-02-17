@@ -48,7 +48,7 @@ brews:
 
     # Your app's description.
     # Default is empty.
-    description: 'Utility to check docker download rate limits'
+    description: 'Prometheus plex exporter'
     commit_author:
       name: sfragata
       email: sfragata@gmail.com
