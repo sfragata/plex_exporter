@@ -50,6 +50,10 @@ func main() {
 
 	flaggy.Parse()
 
+	if len(plexHost) == 0 {
+		flaggy.ShowHelpAndExit("Ples address is mandatory")
+	}
+
 	client := &http.Client{
 		Timeout: server.HTTPTimeout * time.Second,
 	}
