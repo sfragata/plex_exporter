@@ -1,15 +1,11 @@
 package collector
 
 import (
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
-	"net/http"
-
+	"github.com.sfragata/plex_exporter/server"
 	"github.com/prometheus/client_golang/prometheus"
 )
 
-const urlSessions = "http://%s:%d/status/sessions"
+const restSessions = "status/sessions"
 
 //ResponseSessions ResponseSessions
 type responseSessions struct {
@@ -31,29 +27,12 @@ func (sm SessionMetrics) describe() *prometheus.Desc {
 func (sm SessionMetrics) metricType() prometheus.ValueType {
 	return prometheus.GaugeValue
 }
-func (sm SessionMetrics) collectMetrics(ch chan<- prometheus.Metric) error {
-	url := fmt.Sprintf(urlSessions, "192.168.2.29", 32400)
-
-	request, _ := http.NewRequest(http.MethodGet, url, nil)
-	// request.Header.Add("X-Plex-Token", p.Token)
-	request.Header.Add("Accept", "application/json")
-	response, err := client.Do(request)
-	if err != nil {
-		return err
-	}
-	if response.StatusCode != http.StatusOK {
-		return fmt.Errorf("Error: status code %d from server", response.StatusCode)
-	}
-
-	body, err := ioutil.ReadAll(response.Body)
-	if err != nil {
-		return err
-	}
+func (sm SessionMetrics) collect(plexServer server.PlexServer) ([]prometheus.Metric, error) {
 	var responseSession responseSessions
-
-	if err := json.Unmarshal([]byte(body), &responseSession); err != nil {
-		return err
+	if err := plexServer.SendRequest(restSessions, &responseSession); err != nil {
+		return nil, err
 	}
-	ch <- prometheus.MustNewConstMetric(sm.describe(), sm.metricType(), float64(responseSession.MediaContainer.Size))
-	return nil
+	metric := prometheus.MustNewConstMetric(sm.describe(), sm.metricType(), float64(responseSession.MediaContainer.Size))
+
+	return []prometheus.Metric{metric}, nil
 }
