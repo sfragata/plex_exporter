@@ -1,16 +1,14 @@
 package collector
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"net/http"
 
+	"github.com.sfragata/plex_exporter/server"
 	"github.com/prometheus/client_golang/prometheus"
 )
 
-const urlAllLibraries = "http://%s:%d/library/sections"
-const urlLibrary = "http://%s:%d/library/sections/%s/all"
+const restAllLibraries = "library/sections"
+const restLibrary = "library/sections/%s/all"
 
 //ResponseLibrary ResponseLibrary
 type responseLibrary struct {
@@ -46,58 +44,27 @@ func (sm LibrariesMetrics) describe() *prometheus.Desc {
 func (sm LibrariesMetrics) metricType() prometheus.ValueType {
 	return prometheus.GaugeValue
 }
-func (sm LibrariesMetrics) collectMetrics(ch chan<- prometheus.Metric) error {
-	url := fmt.Sprintf(urlAllLibraries, "192.168.2.29", 32400)
-
-	request, _ := http.NewRequest(http.MethodGet, url, nil)
-	// request.Header.Add("X-Plex-Token", p.Token)
-	request.Header.Add("Accept", "application/json")
-	response, err := client.Do(request)
-	if err != nil {
-		return err
-	}
-	if response.StatusCode != http.StatusOK {
-		return fmt.Errorf("Error: status code %d from server", response.StatusCode)
-	}
-
-	body, err := ioutil.ReadAll(response.Body)
-	if err != nil {
-		return err
-	}
-	// log.Print(string(body))
+func (sm LibrariesMetrics) collect(plexServer server.PlexServer) ([]prometheus.Metric, error) {
 
 	var responseLibraries responseLibraries
 
-	if err := json.Unmarshal([]byte(body), &responseLibraries); err != nil {
-		return err
+	if err := plexServer.SendRequest(restAllLibraries, &responseLibraries); err != nil {
+		return nil, err
 	}
+
+	var metrics []prometheus.Metric
 	for _, directory := range responseLibraries.MediaContainer.ResponseDirectories {
-		url := fmt.Sprintf(urlLibrary, "192.168.2.29", 32400, directory.Key)
 
-		request, _ := http.NewRequest(http.MethodGet, url, nil)
-		// request.Header.Add("X-Plex-Token", p.Token)
-		request.Header.Add("Accept", "application/json")
-		response, err := client.Do(request)
-		if err != nil {
-			return err
-		}
-		if response.StatusCode != http.StatusOK {
-			return fmt.Errorf("Error: status code %d from server", response.StatusCode)
-		}
+		restEachLibrary := fmt.Sprintf(restLibrary, directory.Key)
 
-		body, err := ioutil.ReadAll(response.Body)
-		// log.Print(string(body))
-		if err != nil {
-			return err
-		}
 		var responseLibrary responseLibrary
 
-		if err := json.Unmarshal([]byte(body), &responseLibrary); err != nil {
-			return err
+		if err := plexServer.SendRequest(restEachLibrary, &responseLibrary); err != nil {
+			return nil, err
 		}
 
-		ch <- prometheus.MustNewConstMetric(sm.describe(), sm.metricType(), float64(responseLibrary.MediaContainer.Size), directory.Title, directory.Type)
-	}
+		metrics = append(metrics, prometheus.MustNewConstMetric(sm.describe(), sm.metricType(), float64(responseLibrary.MediaContainer.Size), directory.Title, directory.Type))
 
-	return nil
+	}
+	return metrics, nil
 }
