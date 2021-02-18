@@ -17,3 +17,20 @@ Accept: application/json
 GET https://192.168.2.29:32400/status/sessions/history/all
 Accept: application/json
 ###
+
+GET http://192.168.2.29:32400/library/recentlyAdded
+Accept: application/json
+###
+
+GET http://192.168.2.29:32400/library
+Accept: application/json
+###
+
+GET http://192.168.2.29:32400/devices
+Accept: application/json
+###
+
+
+GET http://192.168.2.29:32400
+Accept: application/json
+###
