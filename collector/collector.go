@@ -24,7 +24,7 @@ type MetricCollector interface {
 func NewPlexCollector(plexServer server.PlexServer) *PlexCollector {
 	return &PlexCollector{
 
-		Collectors: []MetricCollector{SessionMetrics{}, LibrariesMetrics{}},
+		Collectors: []MetricCollector{SessionMetrics{}, LibrariesMetrics{}, SessionMetricsUserDevice{}},
 		plexServer: plexServer,
 	}
 }
