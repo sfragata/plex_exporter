@@ -1,0 +1,410 @@
+{
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": "-- Grafana --",
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "gnetId": null,
+    "graphTooltip": 0,
+    "id": 11,
+    "links": [],
+    "panels": [
+      {
+        "datasource": null,
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 10,
+              "gradientMode": "none",
+              "hideFrom": {
+                "graph": false,
+                "legend": false,
+                "tooltip": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "never",
+              "spanNulls": true
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 0
+        },
+        "id": 2,
+        "options": {
+          "graph": {},
+          "legend": {
+            "calcs": [
+              "min",
+              "max",
+              "mean"
+            ],
+            "displayMode": "list",
+            "placement": "bottom"
+          },
+          "tooltipOptions": {
+            "mode": "single"
+          }
+        },
+        "pluginVersion": "7.4.1",
+        "targets": [
+          {
+            "expr": "plex_active_sessions_count{job=\"plex_exporter\"}",
+            "interval": "",
+            "legendFormat": "sessions",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Active Sessions",
+        "type": "timeseries"
+      },
+      {
+        "datasource": null,
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 10,
+              "gradientMode": "none",
+              "hideFrom": {
+                "graph": false,
+                "legend": false,
+                "tooltip": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "never",
+              "spanNulls": true
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        },
+        "id": 13,
+        "options": {
+          "graph": {},
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom"
+          },
+          "tooltipOptions": {
+            "mode": "single"
+          }
+        },
+        "pluginVersion": "7.4.1",
+        "targets": [
+          {
+            "expr": "sum by (device) (plex_active_sessions_count_user_device)",
+            "interval": "",
+            "legendFormat": "Device - {{device}}",
+            "refId": "A"
+          },
+          {
+            "expr": "sum by (user) (plex_active_sessions_count_user_device)",
+            "hide": false,
+            "interval": "",
+            "legendFormat": "User - {{user}}",
+            "refId": "B"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Active Sessions by user and device",
+        "type": "timeseries"
+      },
+      {
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {},
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 5,
+          "x": 0,
+          "y": 8
+        },
+        "id": 4,
+        "options": {
+          "reduceOptions": {
+            "calcs": [
+              "last"
+            ],
+            "fields": "/^plex_active_sessions_count\\{job=\"plex_exporter\"\\}$/",
+            "values": false
+          },
+          "showThresholdLabels": true,
+          "showThresholdMarkers": true,
+          "text": {}
+        },
+        "pluginVersion": "7.4.2",
+        "targets": [
+          {
+            "expr": "plex_active_sessions_count{job=\"plex_exporter\"}",
+            "interval": "",
+            "legendFormat": "",
+            "refId": "A"
+          }
+        ],
+        "title": "Instant Active Sessions",
+        "type": "gauge"
+      },
+      {
+        "aliasColors": {},
+        "breakPoint": "50%",
+        "cacheTimeout": null,
+        "combine": {
+          "label": "Others",
+          "threshold": 0
+        },
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {
+            "custom": {}
+          },
+          "overrides": []
+        },
+        "fontSize": "80%",
+        "format": "short",
+        "gridPos": {
+          "h": 10,
+          "w": 7,
+          "x": 5,
+          "y": 8
+        },
+        "id": 9,
+        "interval": null,
+        "legend": {
+          "percentage": true,
+          "show": true,
+          "values": true
+        },
+        "legendType": "Right side",
+        "links": [],
+        "nullPointMode": "connected",
+        "pieType": "donut",
+        "pluginVersion": "7.4.2",
+        "strokeWidth": 1,
+        "targets": [
+          {
+            "expr": "sum by (type) (plex_library_count)",
+            "instant": false,
+            "interval": "",
+            "legendFormat": "{{type}}",
+            "refId": "A"
+          }
+        ],
+        "title": "Medias by Type",
+        "type": "grafana-piechart-panel",
+        "valueName": "current"
+      },
+      {
+        "aliasColors": {},
+        "breakPoint": "50%",
+        "cacheTimeout": null,
+        "combine": {
+          "label": "Others",
+          "threshold": 0
+        },
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {
+            "custom": {}
+          },
+          "overrides": []
+        },
+        "fontSize": "80%",
+        "format": "short",
+        "gridPos": {
+          "h": 10,
+          "w": 8,
+          "x": 12,
+          "y": 8
+        },
+        "id": 6,
+        "interval": null,
+        "legend": {
+          "percentage": true,
+          "show": true,
+          "values": true
+        },
+        "legendType": "Right side",
+        "links": [],
+        "nullPointMode": "connected",
+        "pieType": "donut",
+        "pluginVersion": "7.4.2",
+        "strokeWidth": 1,
+        "targets": [
+          {
+            "expr": "plex_library_count  ",
+            "instant": false,
+            "interval": "",
+            "legendFormat": "{{name}}",
+            "refId": "A"
+          }
+        ],
+        "title": "Medias",
+        "type": "grafana-piechart-panel",
+        "valueName": "current"
+      },
+      {
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {},
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": []
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 4,
+          "x": 20,
+          "y": 8
+        },
+        "id": 8,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "text": {},
+          "textMode": "auto"
+        },
+        "pluginVersion": "7.4.2",
+        "targets": [
+          {
+            "expr": "sum(plex_library_count)",
+            "interval": "",
+            "legendFormat": "",
+            "refId": "A"
+          }
+        ],
+        "title": "Total Medias",
+        "type": "stat"
+      }
+    ],
+    "schemaVersion": 27,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+      "list": []
+    },
+    "time": {
+      "from": "now-5m",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "Plex",
+    "uid": "IvrPfuEMz",
+    "version": 12
+  }

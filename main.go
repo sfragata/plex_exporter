@@ -46,7 +46,7 @@ func main() {
 	flaggy.String(&plexToken, "t", "token", "Plex token")
 
 	var metricsPort = "2112"
-	flaggy.String(&metricsPort, "pm", "port-metrics", "Plex exporter metrics port")
+	flaggy.String(&metricsPort, "l", "listen-address", "Plex exporter metrics port")
 
 	flaggy.Parse()
 
@@ -67,7 +67,7 @@ func main() {
 
 	err := prometheus.Register(collector.NewPlexCollector(plexServer))
 	if err != nil {
-		log.Fatal("Can't register collectors")
+		log.Fatalf("Can't register collectors: %v", err)
 	}
 
 	http.Handle("/metrics", promhttp.Handler())
