@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"runtime"
 	"time"
 
@@ -36,13 +37,13 @@ func main() {
 	flaggy.SetDescription("Prometheus exporter for plex")
 	flaggy.SetVersion(info)
 
-	var plexHost string
+	var plexHost = "127.0.0.1"
 	flaggy.String(&plexHost, "H", "host", "Plex address")
 
 	var plexPort = 32400
 	flaggy.Int(&plexPort, "p", "port", "Plex port")
 
-	var plexToken string
+	var plexToken = os.Getenv("PLEX_TOKEN")
 	flaggy.String(&plexToken, "t", "token", "Plex token")
 
 	var metricsPort = "2112"
