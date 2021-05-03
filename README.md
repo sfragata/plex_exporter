@@ -22,13 +22,13 @@ get latest release [here](https://github.com/sfragata/plex_exporter/releases)
 ```
 plex_exporter - Prometheus exporter for plex
 
-  Flags: 
-        --version        Displays the program version string.
-    -h  --help           Displays help with available flag, subcommand, and positional value parameters.
-    -H  --host           Plex address
-    -p  --port           Plex port (default: 32400)
-    -t  --token          Plex token
-    -l --listen-address  Plex exporter metrics port (default: 2112)
+  Flags:
+       --version          Displays the program version string.
+    -h --help             Displays help with available flag, subcommand, and positional value parameters.
+    -H --host             Plex address (default: 127.0.0.1)
+    -p --port             Plex port (default: 32400)
+    -t --token            Plex token (if PLEX_TOKEN env variable is set, it will be used)
+    -l --listen-address   Plex exporter metrics port (default: 2112)
 ```    
 ## Output
 ```
