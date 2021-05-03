@@ -44,16 +44,12 @@ func main() {
 	flaggy.Int(&plexPort, "p", "port", "Plex port")
 
 	var plexToken = os.Getenv("PLEX_TOKEN")
-	flaggy.String(&plexToken, "t", "token", "Plex token")
+	flaggy.String(&plexToken, "t", "token", "Plex token (if PLEX_TOKEN env variable is set, it will be used)")
 
 	var metricsPort = "2112"
 	flaggy.String(&metricsPort, "l", "listen-address", "Plex exporter metrics port")
 
 	flaggy.Parse()
-
-	if len(plexHost) == 0 {
-		flaggy.ShowHelpAndExit("Ples address is mandatory")
-	}
 
 	client := &http.Client{
 		Timeout: server.HTTPTimeout * time.Second,
@@ -72,7 +68,7 @@ func main() {
 	}
 
 	http.Handle("/metrics", promhttp.Handler())
-	log.Printf("starting plex_export [:%s]", metricsPort)
+	log.Printf("starting plex_export [%s:%s]", plexHost, metricsPort)
 	err = http.ListenAndServe(":"+metricsPort, nil)
 	if err != nil {
 		log.Fatalf("Can't start server %s", metricsPort)
