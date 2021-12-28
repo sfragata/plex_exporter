@@ -1,36 +1,36 @@
-GET http://192.168.2.29:32400/status/sessions
+GET http://192.168.2.80:32400/status/sessions
 Accept: application/json
 ###
 
-GET http://192.168.2.29:32400/library/sections
+GET http://192.168.2.80:32400/library/sections
 Accept: application/json
 ###
 
-GET http://192.168.2.29:32400/library/sections/3/all
+GET http://192.168.2.80:32400/library/sections/3/all
 Accept: application/json
 ###
 
-GET https://192.168.2.29:32400/transcode/sessions
+GET https://192.168.2.80:32400/transcode/sessions
 Accept: application/json
 ###
 
-GET https://192.168.2.29:32400/status/sessions/history/all
+GET https://192.168.2.80:32400/status/sessions/history/all
 Accept: application/json
 ###
 
-GET http://192.168.2.29:32400/library/recentlyAdded
+GET http://192.168.2.80:32400/library/recentlyAdded
 Accept: application/json
 ###
 
-GET http://192.168.2.29:32400/library
+GET http://192.168.2.80:32400/library
 Accept: application/json
 ###
 
-GET http://192.168.2.29:32400/devices
+GET http://192.168.2.80:32400/devices
 Accept: application/json
 ###
 
 
-GET http://192.168.2.29:32400
+GET http://192.168.2.80:32400/
 Accept: application/json
 ###

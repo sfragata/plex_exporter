@@ -21,7 +21,7 @@ func TestSessionCollectorCollect(test *testing.T) {
 	}))
 	defer server.Close()
 
-	collector := NewPlexCollector(newPlexServer(server))
+	collector := NewPlexCollector(newPlexServer(server), "")
 	expected := `
 	# HELP plex_active_sessions_count show number active sessions
 	# TYPE plex_active_sessions_count gauge

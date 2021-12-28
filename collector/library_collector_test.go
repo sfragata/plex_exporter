@@ -30,7 +30,7 @@ func TestLibraryCollectorCollect(test *testing.T) {
 	}))
 	defer server.Close()
 
-	collector := NewPlexCollector(newPlexServer(server))
+	collector := NewPlexCollector(newPlexServer(server), "")
 	expected := `
 	# HELP plex_library_count show number medias
 	# TYPE plex_library_count gauge

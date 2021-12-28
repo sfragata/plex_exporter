@@ -19,7 +19,7 @@ func TestSessionUserDeviceCollectorCollect(test *testing.T) {
 	}))
 	defer server.Close()
 
-	collector := NewPlexCollector(newPlexServer(server))
+	collector := NewPlexCollector(newPlexServer(server), "")
 	expected := `
 	# HELP plex_active_sessions_count_user_device show number active sessions by user and device
 	# TYPE plex_active_sessions_count_user_device gauge
