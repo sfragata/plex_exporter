@@ -62,7 +62,7 @@ func main() {
 		HTTPClient: *client,
 	}
 
-	err := prometheus.Register(collector.NewPlexCollector(plexServer))
+	err := prometheus.Register(collector.NewPlexCollector(plexServer, version))
 	if err != nil {
 		log.Fatalf("Can't register collectors: %v", err)
 	}

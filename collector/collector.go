@@ -21,10 +21,12 @@ type MetricCollector interface {
 }
 
 //NewPlexCollector constructor
-func NewPlexCollector(plexServer server.PlexServer) *PlexCollector {
+func NewPlexCollector(plexServer server.PlexServer, plexExporterVersion string) *PlexCollector {
 	return &PlexCollector{
 
-		Collectors: []MetricCollector{SessionMetrics{}, LibrariesMetrics{}, SessionMetricsUserDevice{}},
+		Collectors: []MetricCollector{SessionMetrics{}, LibrariesMetrics{}, SessionMetricsUserDevice{}, PlexBuildInfoMetrics{
+			version: plexExporterVersion,
+		}},
 		plexServer: plexServer,
 	}
 }

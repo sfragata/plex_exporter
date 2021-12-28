@@ -30,9 +30,17 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: ${{ matrix.go_version }} 
-      - name: Go tests
+      - name: go tests
         run: |
           echo "getting dependencies...".
           go get -v -u ./...
           echo "go test for ${{ matrix.os }} and version ${{ matrix.go_version }}".
           go test -v ./... -cover -race
+          go build -v -o ${{ github.workspace }}/dist/plex_exporter main.go
+
+      - name: upload artifacts
+        uses: actions/upload-artifact@v2
+        with: 
+          name: plex_exporter-${{ matrix.os }}
+          path: ${{ github.workspace }}/dist/**/*
+          retention-days: 10          
