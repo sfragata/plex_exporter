@@ -42,11 +42,4 @@ jobs:
         with: 
           name: plex_exporter-${{ matrix.os }}
           path: ${{ github.workspace }}/dist/**/*
-          retention-days: 10          
-      - name: trigger snapshot docker image builder
-        run: |
-          curl --location --request POST 'https://api.github.com/repos/sfragata/docker/dispatches' \
-            --header 'Accept: application/vnd.github.everest-preview+json' \
-            --header 'Content-Type: application/json' \
-            --header 'Authorization: Bearer ${{secrets.REPOSITORY_DISPATCH_TOKEN}}' \
-            --data-raw '{ "event_type": "plex_exporter", "client_payload": { "image_version": "snapshot" } }'          
+          retention-days: 10
