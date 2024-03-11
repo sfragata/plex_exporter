@@ -2,7 +2,6 @@ name: Golang CI
 
 on:
   push:
-    branches: [ main ]
   pull_request:
 
 jobs:
@@ -10,11 +9,11 @@ jobs:
       name: lint
       runs-on: ubuntu-latest
       steps:
-        - uses: actions/checkout@v2
+        - uses: actions/checkout@v4
         - name: golangci-lint
-          uses: golangci/golangci-lint-action@v2
+          uses: golangci/golangci-lint-action@v4
           with:
-            version: v1.43.0
+            version: v1.54
             # Optional: show only new issues if it's a pull request. The default value is `false`.
             only-new-issues: true
   test:
@@ -22,12 +21,12 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        go_version: [1.17]
+        go_version: [1.22]
     steps:
       - name: checkout  
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Set up Go ${{ matrix.go_version }}
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v5
         with:
           go-version: ${{ matrix.go_version }} 
       - name: go tests
@@ -38,7 +37,7 @@ jobs:
           go test -v ./... -cover -race
           go build -v -o ${{ github.workspace }}/dist/plex_exporter main.go
       - name: upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with: 
           name: plex_exporter-${{ matrix.os }}
           path: ${{ github.workspace }}/dist/**/*
