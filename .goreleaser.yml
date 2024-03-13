@@ -12,6 +12,7 @@ builds:
     goos:
       - linux
       - darwin
+      - windows
     ldflags: -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}}
 archives:
   -  format_overrides:
