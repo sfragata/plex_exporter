@@ -84,7 +84,7 @@ func TestGivenServerErrorWhenSendResquestThenReturnError(test *testing.T) {
 		test.Error("Should throw error")
 	}
 	errorMsg := fmt.Sprintf("%v", err)
-	if !strings.Contains(errorMsg, "Error: status code 500 from server") {
+	if !strings.Contains(errorMsg, "error: status code 500 from server") {
 		test.Errorf("Error, it should contains expected: 'Error: status code 500 from server', actual: '%v'", err)
 	}
 }
@@ -103,7 +103,7 @@ func TestGivenInvalidJsonResponseWhenSendRequestThenReturnError(test *testing.T)
 		test.Errorf("Error: %v", err)
 	}
 	errorToString := fmt.Sprintf("%v", err)
-	if !strings.Contains(errorToString, "Invalid JSON") {
+	if !strings.Contains(errorToString, "invalid JSON") {
 		test.Errorf("\nShould contain: %s\nActual: %s", "Invalid JSON", errorToString)
 	}
 

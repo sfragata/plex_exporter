@@ -3,17 +3,17 @@ package server
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"strings"
 )
 
-//HTTPTimeout timeout to call endpoints
+// HTTPTimeout timeout to call endpoints
 const HTTPTimeout = 2
 
 const urlTemplate = "http://%s:%d/%s"
 
-//PlexServer plex server information
+// PlexServer plex server information
 type PlexServer struct {
 	Host       string
 	Port       int
@@ -21,7 +21,7 @@ type PlexServer struct {
 	HTTPClient http.Client
 }
 
-//SendRequest send requests to plex endpoints
+// SendRequest send requests to plex endpoints
 func (ps PlexServer) SendRequest(api string, jsonStruct interface{}) error {
 
 	url := fmt.Sprintf(urlTemplate, ps.Host, ps.Port, api)
@@ -38,17 +38,17 @@ func (ps PlexServer) SendRequest(api string, jsonStruct interface{}) error {
 		return err
 	}
 	if response.StatusCode != http.StatusOK {
-		return fmt.Errorf("Error: status code %d from server", response.StatusCode)
+		return fmt.Errorf("error: status code %d from server", response.StatusCode)
 	}
 
-	body, err := ioutil.ReadAll(response.Body)
+	body, err := io.ReadAll(response.Body)
 	if err != nil {
 		return err
 	}
 	defer response.Body.Close()
 
 	if err := json.Unmarshal([]byte(body), &jsonStruct); err != nil {
-		return fmt.Errorf("Invalid JSON: %v", err)
+		return fmt.Errorf("invalid JSON: %v", err)
 	}
 	return nil
 
